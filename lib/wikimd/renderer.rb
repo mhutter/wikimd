@@ -13,9 +13,14 @@ module WikiMD
                               fenced_code_blocks: true,
                               no_intra_emphasis: true,
                               autolink: true,
+                              strikethrough: true,
                               superscript: true,
                               highlight: true,
                               footnotes: true
+    end
+
+    def self.css
+      Rouge::Themes::Github.render(scope: '.highlight')
     end
   end
 end

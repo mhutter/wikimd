@@ -20,8 +20,9 @@ module WikiMD
       Slim::Engine.set_options pretty: true, sort_attrs: false
     end
 
-    get '/favicon.ico' do
-      ''
+    get '/syntax.css' do
+      headers 'Content-Type' => 'text/css'
+      WikiMD::Renderer.css
     end
 
     get '/' do
