@@ -6,9 +6,10 @@ SimpleCov.start
 
 # Fixture repo is included in the GIT repository
 FIXTURE_REPO_PATH = File.expand_path('../fixtures/repo', __FILE__)
-
 # Temp-Repo will be deleted before tests!
 TMP_REPO_PATH = File.expand_path('../../tmp/test_repo', __FILE__)
+# remember the original PWD
+ORIGINAL_PWD = Dir.pwd
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

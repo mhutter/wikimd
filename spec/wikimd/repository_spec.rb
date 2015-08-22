@@ -34,13 +34,9 @@ RSpec.describe WikiMD::Repository do
       }.to raise_error(WikiMD::Repository::FileNotFound)
     end
 
-    it 'raises if attempting to read a hidden file' do
-      expect {
-        repo.read('folder/.keep')
-      }.to raise_error(WikiMD::Repository::FileNotFound)
-    end
-
-    it 'can not read stuff outside the repo path' do
+    it 'cannot read stuff outside the repo path' do
+      Pathname(TMP_REPO_PATH).rmtree
+      Pathname(TMP_REPO_PATH).mkpath
       # create a testfile outside repo_path
       file = Pathname(TMP_REPO_PATH).join('file')
       file.open('w') { |f| f.write 'fail' }
@@ -57,9 +53,106 @@ RSpec.describe WikiMD::Repository do
     end
   end
 
-  # describe '#list_dirs' do
-  #   it 'returns an array of folder names' do
-  #     expect(repo.list_dirs('list/')).to eq %w(folderA folderB folderC)
-  #   end
-  # end
+  describe '#list_dirs' do
+    it 'returns an array of folder names' do
+      expect(repo.list_dirs('list/')).to eq %w(folderA/ folderB/ folderC/)
+      expect(repo.list_dirs('list')).to eq %w(folderA/ folderB/ folderC/)
+    end
+
+    it 'does not include hidden directories' do
+      expect(repo.list_dirs('list/')).to_not include('.hidden')
+      expect(repo.list_dirs('list/')).to_not include('.hidden_file')
+    end
+
+    it 'returns an empty array for empty directories' do
+      expect(repo.list_dirs('empty')).to eq []
+      expect(repo.list_dirs('empty/')).to eq []
+    end
+
+    it 'does not modify the working dir' do
+      repo.list_dirs('list/')
+      expect(Dir.pwd).to eq ORIGINAL_PWD
+    end
+
+    it 'raises if the dir does not exist' do
+      expect {
+        repo.list_dirs('does/not/exist')
+      }.to raise_error(WikiMD::Repository::FileNotFound)
+    end
+
+    it 'raises if the dir is a file' do
+      expect {
+        repo.list_dirs('file')
+      }.to raise_error(WikiMD::Repository::FileNotFound)
+    end
+
+    it 'cannot read stuff outside the repo path' do
+      Pathname(TMP_REPO_PATH).rmtree
+      # create a directory
+      dir = Pathname(TMP_REPO_PATH).join('dir')
+      dir.mkpath
+
+      expect {
+        repo.list_dirs(dir)
+      }.to raise_error(WikiMD::Repository::FileNotFound)
+
+      # construct a relative path to dir
+      dir = dir.relative_path_from(repo_path)
+      expect {
+        repo.read(dir)
+      }.to raise_error(WikiMD::Repository::FileNotFound)
+    end
+  end
+
+  describe '#list_files' do
+    it 'returns an array of file names' do
+      expect(repo.list_files('list/')).to eq %w(fileA fileB fileC)
+      expect(repo.list_files('list')).to eq %w(fileA fileB fileC)
+    end
+
+    it 'does not include hidden files' do
+      expect(repo.list_files('list/')).to_not include('.hidden')
+      expect(repo.list_files('list/')).to_not include('.hidden_file')
+    end
+
+    it 'returns an empty array for empty directories' do
+      expect(repo.list_files('empty')).to eq []
+      expect(repo.list_files('empty/')).to eq []
+    end
+
+
+    it 'does not modify the working dir' do
+      repo.list_files('list/')
+      expect(Dir.pwd).to eq ORIGINAL_PWD
+    end
+
+    it 'raises if the dir does not exist' do
+      expect {
+        repo.list_files('does/not/exist')
+      }.to raise_error(WikiMD::Repository::FileNotFound)
+    end
+
+    it 'raises if the dir is a file' do
+      expect {
+        repo.list_files('file')
+      }.to raise_error(WikiMD::Repository::FileNotFound)
+    end
+
+    it 'cannot read stuff outside the repo path' do
+      Pathname(TMP_REPO_PATH).rmtree
+      # create a directory
+      dir = Pathname(TMP_REPO_PATH).join('dir')
+      dir.mkpath
+
+      expect {
+        repo.list_files(dir)
+      }.to raise_error(WikiMD::Repository::FileNotFound)
+
+      # construct a relative path to dir
+      dir = dir.relative_path_from(repo_path)
+      expect {
+        repo.read(dir)
+      }.to raise_error(WikiMD::Repository::FileNotFound)
+    end
+  end
 end
