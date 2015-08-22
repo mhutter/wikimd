@@ -36,6 +36,8 @@ module WikiMD
       raise FileNotFound, "no such file in repo - #{path}"
     end
 
+    # @param path [#to_s] path to check
+    # @return [Boolean] +true+, if +path+ is within the repo
     def within_repo?(path)
       path.to_s.start_with?(@path.to_s)
     end

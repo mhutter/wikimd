@@ -9,12 +9,13 @@ gem 'puma'
 
 group :development do
   gem 'shotgun'
+  gem 'yard'
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'growl'
 end
 
 group :test do
   gem 'rspec'
   gem 'rack-test'
-  gem 'guard'
-  gem 'guard-rspec'
-  gem 'growl'
 end
