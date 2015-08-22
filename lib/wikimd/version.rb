@@ -1,3 +1,3 @@
-module WikiMD
+module WikiMD # :nodoc:
   VERSION = '0.1.0'
 end
