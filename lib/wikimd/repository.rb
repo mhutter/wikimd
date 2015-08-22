@@ -14,13 +14,21 @@ module WikiMD
       @path.mkpath
     end
 
+    # Reads a
     def read(path)
       file = @path.join(path)
-      if file.basename.to_s.start_with?('.') || !file.file?
-        # file is either hidden or not a file.
-        fail FileNotFound, "no such file in repo - #{path}"
-      end
+
+      fail if file.basename.to_s.start_with?('.') # file hidden
+      fail unless within_repo?(file) # file outside repo
+      fail unless file.file? # file does not exist or is a directory
+
       file.open.read
+    rescue
+      fail FileNotFound, "no such file in repo - #{path}"
+    end
+
+    def within_repo?(path)
+      path.to_s.start_with?(@path.to_s)
     end
   end
 end

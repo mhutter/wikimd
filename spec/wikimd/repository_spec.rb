@@ -38,5 +38,13 @@ RSpec.describe WikiMD::Repository do
         repo.read('folder/.keep')
       }.to raise_error(WikiMD::Repository::FileNotFound)
     end
+
+    it 'can not read stuff outside the repo path' do
+      file = Pathname(TMP_REPO_PATH).join('file')
+      file.open('w') { |f| f.write 'fail' }
+      expect {
+        repo.read(file)
+      }.to raise_error(WikiMD::Repository::FileNotFound)
+    end
   end
 end
