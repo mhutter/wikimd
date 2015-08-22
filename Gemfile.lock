@@ -3,6 +3,7 @@ GEM
   specs:
     coderay (1.1.0)
     diff-lcs (1.2.5)
+    docile (1.1.5)
     ffi (1.9.10)
     formatador (0.2.5)
     growl (1.0.3)
@@ -20,6 +21,7 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
+    json (1.8.3)
     listen (3.0.3)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
@@ -60,6 +62,11 @@ GEM
     shellany (0.0.1)
     shotgun (0.9.1)
       rack (>= 1.0)
+    simplecov (0.10.0)
+      docile (~> 1.1.0)
+      json (~> 1.8)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
     sinatra (1.4.6)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -87,6 +94,7 @@ DEPENDENCIES
   rouge (~> 1.8, != 1.9.1)
   rspec
   shotgun
+  simplecov
   sinatra
   slim
   yard

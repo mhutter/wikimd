@@ -15,10 +15,12 @@ module WikiMD
       set :markdown_renderer, WikiMD::Renderer.build
     end
 
+    # :nocov:
     configure :development do
       # settings for easier debugging
       Slim::Engine.set_options pretty: true, sort_attrs: false
     end
+    # :nocov:
 
     get '/syntax.css' do
       headers 'Content-Type' => 'text/css'
