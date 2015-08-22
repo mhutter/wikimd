@@ -5,6 +5,7 @@ require 'wikimd/error'
 module WikiMD
   # Handles reading and writing of files in the repo. Also interacts with GIT.
   class Repository
+    # Raised, if a file or directory cannot be found, or is outside the repo.
     class FileNotFound < WikiMD::Error; end
 
     attr_reader :path

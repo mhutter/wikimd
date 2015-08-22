@@ -1,0 +1,12 @@
+ul.folder
+  - if @dirs.any?
+    li
+      ul.dirs
+        - @dirs.sort.each do |dir|
+          li= dir
+
+  - if @files.any?
+    li
+      ul.files
+        - @files.sort.each do |file|
+          li= file

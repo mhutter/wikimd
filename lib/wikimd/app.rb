@@ -28,7 +28,13 @@ module WikiMD
     end
 
     get '/' do
-      slim "pre Hello! The repo is at '#{settings.repo}'"
+      slim 'Hello, world!'
+    end
+
+    get '/*/' do |path|
+      @dirs = repo.list_dirs(path)
+      @files = repo.list_files(path)
+      slim :folder
     end
 
     get '/*' do |path|
