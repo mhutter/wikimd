@@ -3,6 +3,12 @@ ENV['RACK_ENV'] = 'test'
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 # See .rspec
 
+# Fixture repo is included in the GIT repository
+FIXTURE_REPO_PATH = File.expand_path('../fixtures/repo', __FILE__)
+
+# Temp-Repo will be deleted before tests!
+TMP_REPO_PATH = File.expand_path('../../tmp/test_repo', __FILE__)
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4.
