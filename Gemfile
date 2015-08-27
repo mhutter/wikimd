@@ -8,6 +8,7 @@ gem 'rouge', '~> 1.8', '!= 1.9.1' # 1.9.1 has a loading bug
 gem 'puma'
 
 group :development do
+  gem 'sass'
   gem 'shotgun'
   gem 'yard'
   gem 'guard'

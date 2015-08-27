@@ -1,6 +1,7 @@
-vendor/bundle
-spec/examples.txt
-tmp/
-.yardoc/
-doc/
-coverage/
+/vendor/bundle
+/spec/examples.txt
+/tmp/
+/.yardoc/
+/doc/
+/coverage/
+/.sass-cache

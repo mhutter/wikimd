@@ -1,0 +1,58 @@
+/* CSS Reset from various sources. Just Google it! */
+html {
+  font-family: sans-serif;
+}
+
+html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, menu, nav, section, time, mark, audio, video, details, summary {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+sup{vertical-align: super;}
+sub{vertical-align: sub;}
+
+mark {
+  background-color: yellow;
+  color: black;
+}
+
+/* some help for older browsers */
+article, aside, figure, footer, header, nav, section, details, summary {display: block;}
+strong {font-weight: bold;}
+
+/* standardize any monospaced elements */
+pre, code, kbd, samp {font-family: monospace, sans-serif;}
+
+/* hand cursor on clickable elements */
+.clickable,
+label,
+input[type=button],
+input[type=submit],
+input[type=file],
+button {cursor: pointer;}
+
+button, input, select, textarea {
+  /* Webkit browsers add a 2px margin outside the chrome of form elements */
+  margin: 0;
+  font-family: inherit;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid;
+  margin: 1em 0;
+  padding: 0;
+}
+
+small {
+  font-size: 0.8em;
+}
+
+* {
+  box-sizing: border-box;
+}

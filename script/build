@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd "$(dirname $0)/.."
+
+bundle exec scss -rmaterialize-sass --sourcemap=none --update _scss:lib/wikimd/app/public/css $@
