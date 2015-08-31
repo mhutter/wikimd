@@ -32,6 +32,10 @@ module WikiMD
       def asset_path(name)
         url("assets/#{name}")
       end
+
+      def octicon(name)
+        %(<span class="octicon octicon-#{name}"></span>)
+      end
     end
 
     get '/assets/syntax.css' do

@@ -6,16 +6,41 @@ html
     meta name="viewport" content="width=device-width, initial-scale=1.0"
 
     title WikiMD
-    link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700,400italic" rel="stylesheet"
-    link rel="stylesheet" href=asset_path('wikimd.css') type="text/css"
+    link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700italic" rel="stylesheet"
+    link rel="stylesheet" href=asset_path('css/wikimd.css') type="text/css"
     link rel="stylesheet" href=asset_path('syntax.css') type="text/css"
   body
+    
+    nav
+      ul.nav
+        li.title Documents
+        li.directory
+          a href="#" == octicon('file-directory') + ' Foo Bar/'
+        li.directory.active
+          a href="#" == octicon('file-directory') + ' Active/'
+        li.file
+          a href="#" == octicon('file-text') + ' syntax.md'
+        li.file
+          a href="#" == octicon('file-text') + ' faq.md'
+        li.footer
+          footer
+            ul
+              li
+                == "#{octicon(:terminal)} with #{octicon(:heart)} by"
+                a< href="https://github.com/mhutter" mhutter
+              li
+                a href="https://github.com/mhutter/wikimd/issues"
+                  == octicon(:bug) + ' Issues'
 
-    .row
-      == yield
-    footer.page-footer
-      .row
-        | Made with &#9829; by
-        a.light-blue-text.text-lighten-3< href="https://github.com/mhutter" mhutter
-
-    / script src="//code.jquery.com/jquery-2.1.1.min.js"
+    main
+      .topbar
+        header WikiMD
+        .search
+          form
+            .icon-search
+              == octicon(:search)
+            input#search type="text" placeholder="syntax.md" name="search" tabindex="1"
+            .icon-clear
+              == octicon(:x)
+      .content
+        == yield
