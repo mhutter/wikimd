@@ -38,12 +38,6 @@ module WikiMD
       end
     end
 
-    get '/assets/syntax.css' do
-      cache_control :public
-      headers 'Content-Type' => 'text/css'
-      WikiMD::Renderer.css
-    end
-
     get '/' do
       slim "p Hello, World!\n"*100
     end
