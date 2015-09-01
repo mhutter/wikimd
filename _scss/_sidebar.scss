@@ -2,6 +2,7 @@
   width: $sidebar-width;
   margin-top: $topbar-height;
   float: left;
+  position: fixed;
   padding: 16px 8px 0;
 }
 .sidebar > ul {
