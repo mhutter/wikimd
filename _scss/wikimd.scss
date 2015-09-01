@@ -24,12 +24,12 @@ hr {
 }
 
 body {
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
   font-weight: 300;
   color: $color-text;
-  background-color: #f0f0f0;
+  background-color: #f2f2f2;
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -56,29 +56,6 @@ a, a:visited {
   font-weight: 600;
 }
 
-input[type=text],
-input[type=number],
-textarea {
-  padding: 7px 8px;
-  outline: none;
-  color: #333;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.075);
-}
-input[type=text]:focus,
-input[type=number]:focus,
-textarea:focus {
-  border-color: #9000FF;
-  box-shadow:
-    inset 0 0 1px 1px rgba(144, 0, 255, 0.1),
-    0 0 5px rgba(144, 0, 255, 0.5);
-}
-strong {
-  font-weight: 600;
-}
-
 code {
   color: #000;
   background: #f8f8f8;
@@ -92,174 +69,12 @@ pre code {
 /*
  *  Actual Styling!
  */
-.nav {
-  position: fixed;
-  width: $sidebar-width;
-  top: $topbar-height;
-  left: 0;
-  padding: 24px 0 60px 0;
-  margin: 0px;
-  height: calc(100% + 60px);
-  overflow-x: hidden;
-  overflow-y: auto;
-  z-index: 999;
-  background-color: #fff;
-  box-shadow:
-    0 2px 5px 0 rgba(0, 0, 0, 0.16),
-    0 2px 10px 0 rgba(0, 0, 0, 0.12);
-}
-.nav .logo {
-  text-align: center;
-  padding: 10px 0;
-  margin-bottom: 24px;
-  line-height: 1;
-  /*border-bottom: 1px solid #ddd;*/
-  /* TODO: Logo einfügen! */
-  background-color: $color-brand;
-  background-image: linear-gradient(
-    to top left,
-    hsl(274, 100%, 50%),
-    hsl(274, 100%, 15%)
-  );
-  color: #fff;
-  /*font-weight: 600;*/
-  font-size: 36px;
-  /*text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);*/
-}
-.nav > li {
-  margin-top: 2px;
-  margin-left: 0;
-  margin: 0;
-}
-.nav > li > a {
-  display: block;
-  padding: 8px 16px 8px 30px;
-}
-.nav > li.active > a {
-  background-color: $color-brand;
-  color: white;
-  font-weight: 600;
-}
-.nav > li > a:hover {
-  background-color: rgba(144, 0, 255, 0.4);
-  color: #000;
-}
-.nav > li.title {
-  font-weight: 600;
-  padding-left: 16px;
-  padding-right: 16px;
-  margin-bottom: 5px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-footer {
-  margin-top: 120px;
-  background: #fff;
-  text-align: center;
-  color: #ccc;
-  padding: 17px 0;
-}
-footer a,
-footer a:visited {
-  font-weight: 600;
-  color: #aaa;
-}
-footer a:hover {
-  color: #888;
-}
-footer ul {
-  list-style: none;
-}
-footer li {
-  display: inline-block;
-  margin-right: 32px;
-}
+@import "topbar";
+@import "sidebar";
 
 main {
   padding-left: $sidebar-width;
-  padding-top: 56px;
-}
-
-.topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  margin-left: $sidebar-width;
-  right: 0;
-  height: 56px;
-  z-index: 888;
-  box-shadow:
-    0 2px 5px 0 rgba(0, 0, 0, 0.16),
-    0 2px 10px 0 rgba(0, 0, 0, 0.12);
-  background-color: $color-brand;
-  background-image: linear-gradient(to bottom, #5E00A6, #9100FE);
-  padding: 10px 60px;
-  vertical-align: center;
-}
-.topbar header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  text-align: center;
-  padding: 10px 0;
-  line-height: 1;
-  width: $sidebar-width;
-  /*border-bottom: 1px solid #ddd;*/
-  /* TODO: Logo einfügen! */
-  background-color: $color-brand;
-  background-image: linear-gradient(
-    to top left,
-    $color-brand,
-    darken($color-brand, 35%)
-    // hsl(274, 100%, 50%),
-    // hsl(274, 100%, 15%)
-  );
-  color: #fff;
-  /*font-weight: 600;*/
-  font-size: 36px;
-  /*text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);*/
-}
-.icon-search, .icon-clear {
-  color: #fff;
-  width: 64px;
-  text-align: center;
-  height: 36px;
-  line-height: 36px;
-  vertical-align: middle;
-  float: left;
-  background: $color-brand;
-}
-.search {
-  width: 100%;
-  position: relative;
-}
-#search {
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  background-color: $color-brand;
-  color: #fff;
-  float: left;
-  width: calc(100% - 128px);
-  height: 36px;
-}
-#search::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color:    #fff;
-}
-#search:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   color:    #fff;
-   opacity:  1;
-}
-#search::-moz-placeholder { /* Mozilla Firefox 19+ */
-   color:    #fff;
-   opacity:  1;
-}
-#search:-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color:    #fff;
-}
-#search:focus {
-  background: #fff;
-  color: $color-text;
+  padding-top: $topbar-height;
 }
 
 .content {

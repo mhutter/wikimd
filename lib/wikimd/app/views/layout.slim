@@ -6,13 +6,16 @@ html
     meta name="viewport" content="width=device-width, initial-scale=1.0"
 
     title WikiMD
-    link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700italic" rel="stylesheet"
     link rel="stylesheet" href=asset_path('css/wikimd.css') type="text/css"
     link rel="stylesheet" href=asset_path('syntax.css') type="text/css"
   body
     
-    nav
-      ul.nav
+    nav.topbar
+      form.search
+        input#search type="text" placeholder="syntax.md" name="search" tabindex="1"
+    
+    nav.sidebar
+      ul
         li.title Documents
         li.directory
           a href="#" == octicon('file-directory') + ' Foo Bar/'
@@ -33,14 +36,5 @@ html
                   == octicon(:bug) + ' Issues'
 
     main
-      .topbar
-        header WikiMD
-        .search
-          form
-            .icon-search
-              == octicon(:search)
-            input#search type="text" placeholder="syntax.md" name="search" tabindex="1"
-            .icon-clear
-              == octicon(:x)
       .content
         == yield

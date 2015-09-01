@@ -1,0 +1,52 @@
+.sidebar {
+  width: $sidebar-width;
+  margin-top: $topbar-height;
+  float: left;
+  padding: 16px 8px 0;
+}
+.sidebar > ul {
+    list-style: none;
+    padding: 0 0 8px 0;
+}
+.sidebar > ul > li {
+  padding: 4px 0 4px 16px;
+  border-radius: 2px;
+
+  &.active {
+    background-color: rgba(0,0,0,.05);
+  }
+  &:hover {
+    background-color: rgba(0,0,0,.03);
+  }
+  &.footer, &.footer:hover,
+  &.title, &.title:hover {
+    background: none;
+  }
+}
+
+.sidebar .title {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+footer {
+  margin-top: 120px;
+  text-align: center;
+  color: #ccc;
+}
+footer a,
+footer a:visited {
+  font-weight: bold;
+  color: #aaa;
+}
+footer a:hover {
+  color: #888;
+}
+footer ul {
+  list-style: none;
+  padding: 0;
+}
+footer li {
+  display: inline-block;
+  margin-right: 32px;
+}

@@ -1,0 +1,49 @@
+.topbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 999;
+  height: $topbar-height;
+  background: $color-brand;
+  box-shadow:
+    0 0 4px rgba(0, 0, 0, .14),
+    0 4px 8px rgba(0, 0, 0, .28);
+}
+
+.search {
+  display: block;
+  margin-left: $sidebar-width + 30px;
+  margin-right: 30px;
+  height: $topbar-height;
+}
+
+#search {
+  height: 36px;
+  margin: 10px 0;
+  padding: 7px 8px;
+  line-height: 22px;
+  font-size: 22px;
+  width: 100%;
+  background: darken($color-brand, 5%);
+  border: none;
+  outline: none;
+  border-radius: 0;
+  box-shadow: none;
+  color: #fff;
+}
+
+#search::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #fff;
+}
+#search:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #fff;
+   opacity:  1;
+}
+#search::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #fff;
+   opacity:  1;
+}
+#search:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #fff;
+}
