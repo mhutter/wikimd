@@ -2,7 +2,7 @@ require 'pathname'
 require 'wikimd/repository'
 
 RSpec.describe WikiMD::Repository do
-  let(:repo) { WikiMD::Repository.new(repo_path.to_s) }
+  let(:repo) { ::WikiMD::Repository.new(repo_path.to_s) }
   let(:repo_path) { Pathname(FIXTURE_REPO_PATH) }
 
   describe '.new' do
@@ -35,7 +35,7 @@ RSpec.describe WikiMD::Repository do
     end
 
     it 'cannot read stuff outside the repo path' do
-      Pathname(TMP_REPO_PATH).rmtree
+      rm_tmp_repo
       Pathname(TMP_REPO_PATH).mkpath
       # create a testfile outside repo_path
       file = Pathname(TMP_REPO_PATH).join('file')
@@ -139,7 +139,7 @@ RSpec.describe WikiMD::Repository do
     end
 
     it 'cannot read stuff outside the repo path' do
-      Pathname(TMP_REPO_PATH).rmtree
+      rm_tmp_repo
       # create a directory
       dir = Pathname(TMP_REPO_PATH).join('dir')
       dir.mkpath
@@ -153,6 +153,26 @@ RSpec.describe WikiMD::Repository do
       expect {
         repo.read(dir)
       }.to raise_error(WikiMD::Repository::FileNotFound)
+    end
+  end # list_files
+
+  describe '#tree' do
+    describe 'empty repo' do
+      let(:repo_path) { Pathname(TMP_REPO_PATH) }
+      it 'returns an empty hash' do
+        rm_tmp_repo
+        expect(repo.tree).to eq({})
+      end
+    end
+
+    it 'returns the tree' do
+      expected = {
+        '.' => %w(file syntax.md),
+        'list' => {
+          '.' => %w{fileA fileB fileC}
+        }
+      }
+      expect(repo.tree).to eq expected
     end
   end
 end

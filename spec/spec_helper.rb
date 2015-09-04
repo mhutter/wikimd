@@ -9,6 +9,11 @@ TMP_REPO_PATH = File.expand_path('../../tmp/test_repo', __FILE__)
 # remember the original PWD
 ORIGINAL_PWD = Dir.pwd
 
+def rm_tmp_repo
+  pn = Pathname(TMP_REPO_PATH)
+  pn.rmtree if pn.exist?
+end
+
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 # See .rspec
 RSpec.configure do |config|
