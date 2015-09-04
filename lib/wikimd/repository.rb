@@ -66,13 +66,14 @@ module WikiMD
     end
 
     # return a hash containing all dirs and files
-    def tree
+    def tree(root = '')
       files = []
-      Dir.chdir(@path) do
-        files = Dir.glob('**/*').select { |p| @path.join(p).file? }
+      dir = @path.join(root)
+      Dir.chdir(dir) do
+        files = Dir.glob('**/*').select { |p| dir.join(p).file? }
       end
 
-      build_hash(files)
+      build_hash(files, root)
     end
 
     # @param path [#to_s] path to check
@@ -84,15 +85,24 @@ module WikiMD
     private
 
     # convert an array of absolute path names into a hash.
-    def build_hash(files)
+    def build_hash(files, root)
       tree = {}
       files.each do |path|
-        parts = path.split(File::SEPARATOR)
-        h = tree
-        parts[0...-1].each { |p| h = h[p] ||= {} }
-        (h['.'] ||= []) << parts[-1]
+        build_tree(tree, path.split(File::SEPARATOR), root)
       end
       tree
+    end
+
+    # add an array of path parts to the +tree+
+    def build_tree(tree, parts, path)
+      path += '/' unless path.empty? || path.end_with?('/')
+      parts[0...-1].each do |p|
+        path += "#{p}/"
+        tree[p] ||= { type: :directory, path: path, sub: {} }
+        tree = tree[p][:sub]
+      end
+      fname = parts[-1]
+      tree[fname] = { type: :text, path: path + fname }
     end
 
     def pathname(path)

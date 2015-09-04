@@ -1,14 +1,1 @@
-ul.folder
-  - if @dirs.any?
-    li
-      ul.dirs
-        - @dirs.sort.each do |dir|
-          li
-            a href=url(dir) = dir
-
-  - if @files.any?
-    li
-      ul.files
-        - @files.sort.each do |file|
-          li
-            a href=url(file) = file
+ul == slim :tree, locals: { tree: @tree }

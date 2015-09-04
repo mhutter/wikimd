@@ -16,14 +16,8 @@ html
     nav.sidebar
       ul
         li.title Documents
-        li.directory
-          a href="#" == octicon('file-directory') + ' Foo Bar/'
-        li.directory.active
-          a href="#" == octicon('file-directory') + ' Active/'
-        li.file
-          a href="#" == octicon('file-text') + ' syntax.md'
-        li.file
-          a href="#" == octicon('file-text') + ' faq.md'
+        == slim :tree, locals: { tree: tree_root }
+
         li.footer
           footer
             ul

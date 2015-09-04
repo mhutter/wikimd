@@ -167,12 +167,28 @@ RSpec.describe WikiMD::Repository do
 
     it 'returns the tree' do
       expected = {
-        '.' => %w(file syntax.md),
+        'file' => { type: :text, path: 'file' },
+        'syntax.md' => { type: :text, path: 'syntax.md' },
         'list' => {
-          '.' => %w{fileA fileB fileC}
+          type: :directory,
+          path: 'list/',
+          sub: {
+            'fileA' => { type: :text, path: 'list/fileA' },
+            'fileB' => { type: :text, path: 'list/fileB' },
+            'fileC' => { type: :text, path: 'list/fileC' }
+          }
         }
       }
       expect(repo.tree).to eq expected
+    end
+
+    it 'returns tree from directory' do
+      expected = {
+        'fileA' => { type: :text, path: 'list/fileA' },
+        'fileB' => { type: :text, path: 'list/fileB' },
+        'fileC' => { type: :text, path: 'list/fileC' }
+      }
+      expect(repo.tree('list')).to eq expected
     end
   end
 end

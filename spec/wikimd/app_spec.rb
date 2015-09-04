@@ -57,13 +57,4 @@ RSpec.describe WikiMD::App do
       expect(last_response.status).to eq 404
     end
   end
-
-  describe 'GET /syntax.css' do
-    it 'renders Syntax highlighting CSS' do
-      get '/syntax.css'
-      expect(last_response.status).to eq 200
-      expect(last_response.body).to include '.highlight {'
-      expect(last_response.header['Content-Type']).to eq 'text/css'
-    end
-  end
 end

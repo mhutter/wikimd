@@ -36,11 +36,15 @@ module WikiMD
       def octicon(name)
         %(<span class="octicon octicon-#{name}"></span>)
       end
+
+      def tree_root
+        repo.tree
+      end
     end
 
-    get '/' do
-      slim "p Hello, World!\n"*100
-    end
+    # get '/' do
+    #   slim "p Hello, World!\n" * 100
+    # end
 
     get(%r{/(.*[^/])$}) do |path|
       begin
@@ -52,10 +56,9 @@ module WikiMD
       slim :file
     end
 
-    get(%r((.*)/)) do |path|
-      @path = path
-      @dirs = repo.list_dirs('')
-      @files = repo.list_files('')
+    get(%r{/(.*)/?}) do |path|
+      pass unless repo.dir?(path)
+      @tree = repo.tree(path)
       slim :folder
     end
 
