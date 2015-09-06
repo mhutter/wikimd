@@ -8,7 +8,7 @@ $color-brand: #9000ff;
 $color-text: #444;
 
 $topbar-height: 56px;
-$sidebar-width: 250px;
+$sidebar-width: 300px;
 
 /* Setup */
 * {
@@ -71,6 +71,7 @@ pre code {
  */
 @import "topbar";
 @import "sidebar";
+@import "tree_view";
 
 main {
   padding-left: $sidebar-width;
@@ -79,6 +80,7 @@ main {
 
 .content {
   margin: 30px;
+  margin-left: 0;
   padding: 30px;
   background: #fff;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);

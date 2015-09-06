@@ -1,0 +1,51 @@
+.tree-view {
+  padding-left: 0;
+  .entry .tree-view {
+    padding-left: 16px;
+  }
+
+  .directory.collapsed > ul {
+    display: none;
+  }
+
+  @mixin icon {
+    @include octicon;
+    white-space: nowrap;
+  }
+
+  .entry {
+    white-space: nowrap;
+  }
+  .entry > a {
+    font-weight: normal;
+  }
+
+  .entry:before {
+    @include icon;
+    width: 8px;
+    content: ' ';
+  }
+  .entry.collapsed:before {
+    content: '\f078';
+  }
+  .entry.expanded:before {
+    content: '\f0a3';
+  }
+
+  .entry.directory {
+    cursor: pointer;
+  }
+
+
+  .entry > :before {
+    @include icon;
+    width: 16px;
+    margin-right: 4px;
+  }
+  .entry > a:before {
+    content: '\f011'
+  }
+  .entry.directory > span:before {
+    content: '\f016';
+  }
+}

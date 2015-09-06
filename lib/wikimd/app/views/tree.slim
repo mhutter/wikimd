@@ -1,7 +1,7 @@
 - tree.each do |name,m|
-  li class=m[:type]
-    a href=url(m[:path])
-      == octicon("file=#{m[:type]}")
-      |  #{name}#{m[:type] == :directory ? '/' : ''}
-    - if m[:type] == :directory && m[:sub].any?
-      ul == slim :tree, locals: { tree: m[:sub] }
+  li.entry class=m[:type]
+    - if m[:type] == :directory
+      span = name
+      ul.tree-view == slim :tree, locals: { tree: m[:sub] }
+    - else
+      a href=url(m[:path]) = name

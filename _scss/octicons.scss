@@ -13,7 +13,7 @@ $octicons-version:   "396334ee3da78f4302d25c758ae3e3ce5dc3c97d";
 
 // .octicon is optimized for 16px.
 // .mega-octicon is optimized for 32px but can be used larger.
-.octicon, .mega-octicon {
+@mixin octicon {
   font: normal normal normal 16px/1 octicons;
   display: inline-block;
   text-decoration: none;
@@ -24,6 +24,9 @@ $octicons-version:   "396334ee3da78f4302d25c758ae3e3ce5dc3c97d";
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+.octicon, .mega-octicon {
+  @include octicon;
 }
 .mega-octicon { font-size: 32px; }
 

@@ -16,8 +16,9 @@ html
     nav.sidebar
       ul
         li.title Documents
-        == slim :tree, locals: { tree: tree_root }
-
+        li.tree
+          ul.tree-view == slim :tree, locals: { tree: tree_root }
+  
         li.footer
           footer
             ul
@@ -31,3 +32,6 @@ html
     main
       .content
         == yield
+
+    script src=asset_path('js/jquery-2.1.4.min.js')
+    script src=asset_path('js/app.js')
