@@ -17,6 +17,8 @@
     white-space: nowrap;
   }
   .entry > a {
+    display: inline-block;
+    width: 100%;
     font-weight: normal;
   }
 
