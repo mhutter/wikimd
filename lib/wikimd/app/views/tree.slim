@@ -1,5 +1,5 @@
 - tree.each do |name,m|
-  li.entry class=m[:type]
+  li.entry class=m[:type] data-path=m[:path]
     - if m[:type] == :directory
       span = name
       ul.tree-view == slim :tree, locals: { tree: m[:sub] }
