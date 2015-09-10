@@ -65,15 +65,18 @@ module WikiMD
       raise FileNotFound, "no such file in repo - #{path}"
     end
 
-    # return a hash containing all dirs and files
-    def tree(root = '')
+    # return an array of all files
+    def files(root = '')
       files = []
       dir = @path.join(root)
       Dir.chdir(dir) do
         files = Dir.glob('**/*').select { |p| dir.join(p).file? }
       end
+    end
 
-      build_hash(files, root)
+    # return a hash containing all dirs and files
+    def tree(root = '')
+      build_hash(files(root), root)
     end
 
     # @param path [#to_s] path to check

@@ -11,7 +11,7 @@ html
     
     nav.topbar
       form.search
-        input#search type="text" placeholder="syntax.md" name="search" tabindex="1"
+        input#search type="text" placeholder=@path name="search" tabindex="1"
     
     nav.sidebar
       ul
@@ -30,8 +30,11 @@ html
                   == octicon(:bug) + ' Issues'
 
     main
+      ul#results
       .content
         == yield
 
+    / script type="text/javascript" == "var files=#{js_files};"
     script src=asset_path('js/jquery-2.1.4.min.js')
+    / script src=asset_path('js/fuzzyset.js')
     script src=asset_path('js/app.js')

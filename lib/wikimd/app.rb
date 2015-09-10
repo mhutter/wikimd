@@ -1,6 +1,8 @@
-require 'bundler/setup'
+require 'json'
 
+require 'bundler/setup'
 require 'sinatra/base'
+require 'fuzzy_set'
 require 'slim'
 require 'puma'
 
@@ -40,11 +42,21 @@ module WikiMD
       def tree_root
         repo.tree
       end
+
+      def js_files
+        repo.files.to_json.gsub('/', ',')
+      end
     end
 
     # get '/' do
     #   slim "p Hello, World!\n" * 100
     # end
+
+    get '/search.json' do
+      headers 'Content-Type' => 'application/json'
+      files_set = FuzzySet.new(repo.files)
+      files_set.get(params[:query]).to_json
+    end
 
     get(%r{/(.*[^/])$}) do |path|
       begin

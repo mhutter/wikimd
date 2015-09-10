@@ -1,7 +1,8 @@
-- tree.each do |name,m|
+- tree.select { |k, v| v[:type] == :directory }.each do |name,m|
+  li.entry class="directory" data-path=m[:path]
+    span = name
+    ul.tree-view == slim :tree, locals: { tree: m[:sub] }
+
+- tree.reject { |k, v| v[:type] == :directory }.each do |name,m|
   li.entry class=m[:type] data-path=m[:path]
-    - if m[:type] == :directory
-      span = name
-      ul.tree-view == slim :tree, locals: { tree: m[:sub] }
-    - else
-      a href=url(m[:path]) = name
+    a href=url(m[:path]) = name

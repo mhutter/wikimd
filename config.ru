@@ -2,5 +2,6 @@ $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
 require 'wikimd/app'
 
 # configuration
-WikiMD::App.set :repo, File.expand_path('../spec/fixtures/repo', __FILE__)
+# WikiMD::App.set :repo, File.expand_path('../spec/fixtures/repo', __FILE__)
+WikiMD::App.set :repo, File.expand_path('../', __FILE__)
 run WikiMD::App
