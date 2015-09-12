@@ -1,0 +1,8 @@
+ul
+  - @history.each do |h|
+    li
+      a> href=url(@path + "?at=#{h[:hash]}") = h[:hash]
+      | &mdash;
+      strong<>= h[:date]
+      | &mdash;
+      =< h[:message]

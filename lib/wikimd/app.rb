@@ -12,6 +12,9 @@ require 'wikimd/repository'
 module WikiMD
   # Main Sinatra application
   class App < Sinatra::Base
+    TYPE_MARKDOWN = %w(md mdown markdown)
+    TYPE_TEXT = %w(txt rb js slim css scss coffee)
+
     use Rack::Deflater
 
     configure do
@@ -58,26 +61,27 @@ module WikiMD
       files_set.get(params[:query]).to_json
     end
 
-    TYPE_MARKDOWN = %w(md mdown markdown)
-    TYPE_TEXT = %w(txt rb js slim css scss coffee)
+    get(%r{/(.*)/history$}) do |path|
+      @path = path
+      begin
+        @history = repo.history(@path)
+      rescue WikiMD::Repository::FileNotFound
+        pass
+      end
+      slim :history
+    end
+
 
     get(%r{/(.*[^/])$}) do |path|
       @path = path
-      extension = (m = path.match(/(?:\.)([^.]+)$/)) ? m[1].downcase : ''
+      @extension = (m = path.match(/(?:\.)([^.]+)$/)) ? m[1].downcase : ''
       begin
-        @content = repo.read(@path)
+        @content = repo.read(@path, params[:at])
       rescue WikiMD::Repository::FileNotFound
         pass
       end
 
-      case
-      when TYPE_MARKDOWN.include?(extension)
-        @content = render_markdown(@content)
-        slim :raw
-      else
-        @content = render_markdown("```#{extension}\n#{@content}\n```")
-        slim :raw
-      end
+      slim :file
     end
 
     get(%r{/(.*)/?}) do |path|

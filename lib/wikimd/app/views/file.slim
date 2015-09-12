@@ -1,0 +1,18 @@
+- if params[:at]
+  .alert.alert-info
+    strong.octicon.octicon-info>
+    | Displaying file at rev. <strong>#{params[:at]}</strong>! Show
+    a<> href=url(@path) latest version
+    | instead
+
+
+.actions
+  a href=url(@path+'/history')
+    strong.octicon.octicon-history>
+    | History
+
+
+- if TYPE_MARKDOWN.include?(@extension)
+  == render_markdown(@content)
+- else
+  == render_markdown("```#{@extension}\n#{@content}\n```")

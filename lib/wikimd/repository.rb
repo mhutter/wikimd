@@ -1,4 +1,6 @@
+require 'open3'
 require 'pathname'
+require 'shellwords'
 
 require 'wikimd/error'
 
@@ -7,12 +9,14 @@ module WikiMD
   class Repository
     # Raised, if a file or directory cannot be found, or is outside the repo.
     class FileNotFound < WikiMD::Error; end
+    class GitError < WikiMD::Error; end
 
     attr_reader :path
 
     def initialize(path)
       @path = Pathname(path)
       @path.mkpath
+      git :init, '-q' unless @path.join('.git').exist?
     end
 
     def dir?(path)
@@ -25,14 +29,29 @@ module WikiMD
     # @param path [String,Pathname] path to the file to be read
     # @return [String] the content of +file+
     # @raise [FileNotFound] if +file+ doesn't exist within the repo or is a dir
-    def read(path)
-      file = pathname(path)
-
-      fail unless within_repo?(file)
-
-      file.open.read
+    def read(path, rev=nil)
+      if rev.nil?
+        file = pathname(path)
+        fail unless within_repo?(file)
+        return file.open.read
+      else
+        git :show, %(#{rev}:"#{path.shellescape}")
+      end
     rescue
       raise FileNotFound, "no such file in repo - #{path}"
+    end
+
+    def history(path)
+      params = %(--pretty='format:%h;%cr;%s' --no-decorate --no-color -z)
+      out = git :log, "#{params} -- #{path.shellescape}"
+      out.split("\x0").map do |e|
+        h, d, m = e.split(';', 3)
+        {
+          hash: h,
+          date: d,
+          message: m
+        }
+      end
     end
 
     # List all directories in +path+.
@@ -86,6 +105,16 @@ module WikiMD
     end
 
     private
+
+    def git(cmd, arg)
+      command = "git #{cmd.to_s} #{arg}"
+      out, err, stat = nil
+      Dir.chdir(@path) do
+        out, err, stat = Open3.capture3(command)
+      end
+      fail GitError, "Error running `#{command}` - #{err}" unless stat.success?
+      out
+    end
 
     # convert an array of absolute path names into a hash.
     def build_hash(files, root)

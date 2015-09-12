@@ -86,7 +86,7 @@ main {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   border: 1px solid #ddd;
 }
-.content h1:first-child {
+.content h1:first-of-type {
   margin-top: 0;
 }
 
@@ -94,4 +94,20 @@ main {
   background-color: #f8f8f8;
   padding: 10px;
   border-radius: 4px;
+}
+
+.actions {
+  text-align: right;
+  margin-bottom: -24px;
+}
+
+.alert {
+  border: 1px solid;
+  padding: 4px;
+}
+
+.alert-info {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bcdff1;
 }
