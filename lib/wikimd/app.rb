@@ -58,14 +58,26 @@ module WikiMD
       files_set.get(params[:query]).to_json
     end
 
+    TYPE_MARKDOWN = %w(md mdown markdown)
+    TYPE_TEXT = %w(txt rb js slim css scss coffee)
+
     get(%r{/(.*[^/])$}) do |path|
+      @path = path
+      extension = (m = path.match(/(?:\.)([^.]+)$/)) ? m[1].downcase : ''
       begin
-        @path = path
-        @content = render_markdown(repo.read(@path))
+        @content = repo.read(@path)
       rescue WikiMD::Repository::FileNotFound
         pass
       end
-      slim :file
+
+      case
+      when TYPE_MARKDOWN.include?(extension)
+        @content = render_markdown(@content)
+        slim :raw
+      else
+        @content = render_markdown("```#{extension}\n#{@content}\n```")
+        slim :raw
+      end
     end
 
     get(%r{/(.*)/?}) do |path|
