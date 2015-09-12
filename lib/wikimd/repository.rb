@@ -8,7 +8,7 @@ module WikiMD
   # Handles reading and writing of files in the repo. Also interacts with GIT.
   class Repository
     # Raised, if a file or directory cannot be found, or is outside the repo.
-    class FileNotFound < WikiMD::Error; end
+    class FileNotFound < Sinatra::NotFound; end
     class GitError < WikiMD::Error; end
 
     attr_reader :path
@@ -16,7 +16,6 @@ module WikiMD
     def initialize(path)
       @path = Pathname(path)
       @path.mkpath
-      git :init, '-q' unless @path.join('.git').exist?
     end
 
     def dir?(path)
@@ -35,7 +34,7 @@ module WikiMD
         fail unless within_repo?(file)
         return file.open.read
       else
-        git :show, %(#{rev}:"#{path.shellescape}")
+        git :show, %(#{rev}:"./#{path.shellescape}")
       end
     rescue
       raise FileNotFound, "no such file in repo - #{path}"

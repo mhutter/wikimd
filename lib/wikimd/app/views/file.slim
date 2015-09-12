@@ -1,9 +1,8 @@
 - if params[:at]
   .alert.alert-info
     strong.octicon.octicon-info>
-    | Displaying file at rev. <strong>#{params[:at]}</strong>! Show
-    a<> href=url(@path) latest version
-    | instead
+    | Displaying file at rev. <strong>#{params[:at]}</strong>!
+    a< href=url(@path) Show current version instead
 
 
 .actions

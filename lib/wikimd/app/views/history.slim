@@ -1,8 +1,17 @@
-ul
-  - @history.each do |h|
-    li
-      a> href=url(@path + "?at=#{h[:hash]}") = h[:hash]
-      | &mdash;
-      strong<>= h[:date]
-      | &mdash;
-      =< h[:message]
+h1
+  | Revision History
+  small< = @path
+
+- if @history.any?
+  ul.history
+    - @history.each do |h|
+      li
+        a.rev> href=url(@path + "?at=#{h[:hash]}") = h[:hash]
+        strong.date<> = h[:date]
+        span.message< = h[:message]
+
+- else
+  .alert.alert-info
+    strong> Nothing to show!
+    | This File has no older Revisions!
+    a< href=url(@path) Show current content instead

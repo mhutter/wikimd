@@ -43,6 +43,10 @@ h1 {
   border-bottom: 1px solid #ccc;
 }
 
+h1 small {
+  color: lighten(#444, 30%);
+}
+
 p {
   margin-bottom: 10px;
 }
@@ -103,11 +107,32 @@ main {
 
 .alert {
   border: 1px solid;
-  padding: 4px;
+  padding: 8px 16px;
 }
 
 .alert-info {
   color: #31708f;
   background-color: #d9edf7;
   border-color: #bcdff1;
+}
+
+.history {
+  border: 1px solid #bbb;
+  padding: 0;
+
+  li {
+    border-bottom: 1px solid #bbb;
+    padding: 8px 16px;
+  }
+  li:last-child {
+    border: none;
+  }
+  .rev {
+    display: inline-block;
+    width: 80px;
+  }
+  .date {
+    display: inline-block;
+    width: 160px;
+  }
 }

@@ -51,9 +51,9 @@ module WikiMD
       end
     end
 
-    # get '/' do
-    #   slim "p Hello, World!\n" * 100
-    # end
+    not_found do
+      slim :'404'
+    end
 
     get '/search.json' do
       headers 'Content-Type' => 'application/json'
