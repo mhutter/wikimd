@@ -1,10 +1,8 @@
 require 'json'
 
-require 'bundler/setup'
 require 'sinatra/base'
 require 'fuzzy_set'
 require 'slim'
-require 'puma'
 
 require 'wikimd/renderer'
 require 'wikimd/repository'
@@ -97,7 +95,7 @@ module WikiMD
     end
 
     def repo
-      @_repo ||= WikiMD::Repository.new(settings.repo)
+      @_repo ||= WikiMD::Repository.new(settings.repo_path)
     end
   end
 end

@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+
+# defaults
+o = {
+  host: '0.0.0.0',
+  port: '8777'
+}
+
+OptionParser.new do |opts|
+  opts.program_name = 'wikimd'
+  opts.banner = 'Usage: wikimd [options]'
+
+  opts.on('-h', '--host HOST', "listen on HOST (default: #{o[:host]})") do |host|
+    o[:host] = host
+  end
+
+  opts.on('-p', '--port PORT', "use PORT (default: #{o[:port]})") do |port|
+    o[:port] = port
+  end
+
+  opts.separator ''
+  opts.separator 'Common options:'
+
+  opts.on_tail('-h', '-?', '--help', 'Show this message') do
+    puts opts
+    exit
+  end
+
+  opts.on_tail('-v', '--version', 'Show version') do
+    require 'wikimd/version'
+    puts "WikiMD #{WikiMD::VERSION}"
+    exit
+  end
+end.parse!
+
+ENV['REPO_PATH'] = File.expand_path(ARGV.any? ? ARGV.shift : '.')
+config_ru = File.expand_path('../../config.ru', __FILE__)
+ARGV.unshift '--host', o[:host], '--port', o[:port], '--env', 'production', config_ru
+
+require 'rack'
+Rack::Server.start

@@ -1,6 +1,7 @@
 /vendor/bundle
 /spec/examples.txt
 /tmp/
+/pkg/
 /.yardoc/
 /doc/
 /coverage/
