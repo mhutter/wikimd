@@ -6,16 +6,6 @@ RSpec.describe WikiMD::Repository do
   let(:repo_path) { Pathname(FIXTURE_REPO_PATH) }
   let(:success) { double('thread', success?: true) }
 
-  describe '.new' do
-    let(:repo_path) { Pathname(TMP_REPO_PATH) }
-    before(:each) { repo_path.rmtree if repo_path.exist? }
-
-    it 'creates the repository path if necessary' do
-      repo
-      expect(repo_path).to be_directory
-    end
-  end #.new
-
   describe '#read' do
     it 'reads the files contents' do
       expected = repo_path.join('file').read
@@ -44,14 +34,14 @@ RSpec.describe WikiMD::Repository do
     end
 
     it 'cannot read stuff outside the repo path' do
-      rm_tmp_repo
-      Pathname(TMP_REPO_PATH).mkpath
+      init_tmp_repo
+
       # create a testfile outside repo_path
       file = Pathname(TMP_REPO_PATH).join('file')
-      file.open('w') { |f| f.write 'fail' }
+      file.write 'fail'
 
       expect {
-        repo.read(file)
+        repo.read(file.to_s)
       }.to raise_error(WikiMD::Repository::FileNotFound)
 
       # construct a relative path to file
@@ -166,7 +156,7 @@ RSpec.describe WikiMD::Repository do
     end
 
     it 'cannot read stuff outside the repo path' do
-      rm_tmp_repo
+      init_tmp_repo
       # create a directory
       dir = Pathname(TMP_REPO_PATH).join('dir')
       dir.mkpath
@@ -185,9 +175,10 @@ RSpec.describe WikiMD::Repository do
 
   describe '#tree' do
     describe 'empty repo' do
-      let(:repo_path) { Pathname(TMP_REPO_PATH) }
+      let(:repo_path) { TMP_REPO_PATH }
+      before { init_tmp_repo }
+
       it 'returns an empty hash' do
-        rm_tmp_repo
         expect(repo.tree).to eq({})
       end
     end
@@ -195,6 +186,7 @@ RSpec.describe WikiMD::Repository do
     it 'returns the tree' do
       expected = {
         'file' => { type: :text, path: 'file' },
+        'index.md' => { type: :text, path: 'index.md' },
         'syntax.md' => { type: :text, path: 'syntax.md' },
         'list' => {
           type: :directory,

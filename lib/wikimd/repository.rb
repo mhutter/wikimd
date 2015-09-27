@@ -14,7 +14,7 @@ module WikiMD
     attr_reader :path
 
     def initialize(path)
-      @path = Pathname(path)
+      @path = Pathname(path).realpath
       @path.mkpath
     end
 
@@ -27,8 +27,7 @@ module WikiMD
     def read(path, rev=nil)
       if rev.nil?
         file = pathname(path)
-        fail unless within_repo?(file)
-        return file.open.read
+        return file.read
       else
         git :show, %(#{rev}:"./#{path.shellescape}")
       end
@@ -137,7 +136,9 @@ module WikiMD
       # - returns an absolute pathname
       # - ... which does not contain any useless dots (., ..)
       # - and checks that the file actually exists.
-      @path.join(path.sub(%r{\A/+}, '')).realpath
+      file = @path.join(path.sub(%r{\A/+}, '')).realpath
+      fail unless file.to_s.start_with?(@path.to_s)
+      file
     rescue
       raise FileNotFound, "no such file or directory in repo - #{path}"
     end

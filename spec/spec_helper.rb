@@ -1,20 +1,18 @@
 ENV['RACK_ENV'] = 'test'
 require 'simplecov'
-SimpleCov.add_filter '/.bundle'
-SimpleCov.add_filter '/spec'
-SimpleCov.add_filter '/features'
 SimpleCov.start
 
 # Fixture repo is included in the GIT repository
 FIXTURE_REPO_PATH = File.expand_path('../fixtures/repo', __FILE__)
 # Temp-Repo will be deleted before tests!
-TMP_REPO_PATH = File.expand_path('../../tmp/test_repo', __FILE__)
+TMP_REPO_PATH = Pathname(File.expand_path('../../tmp/test_repo', __FILE__))
+TMP_REPO_PATH.mkpath
 # remember the original PWD
 ORIGINAL_PWD = Dir.pwd
 
-def rm_tmp_repo
-  pn = Pathname(TMP_REPO_PATH)
-  pn.rmtree if pn.exist?
+def init_tmp_repo
+  TMP_REPO_PATH.rmtree if TMP_REPO_PATH.exist?
+  TMP_REPO_PATH.mkpath
 end
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
