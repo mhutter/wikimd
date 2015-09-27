@@ -34,7 +34,5 @@ html
       .content
         == yield
 
-    / script type="text/javascript" == "var files=#{js_files};"
     script src=asset_path('js/jquery-2.1.4.min.js')
-    / script src=asset_path('js/fuzzyset.js')
     script src=asset_path('js/app.js')
