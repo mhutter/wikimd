@@ -92,12 +92,6 @@ module WikiMD
       build_hash(files(root), root)
     end
 
-    # @param path [#to_s] path to check
-    # @return [Boolean] +true+, if +path+ is within the repo
-    def within_repo?(path)
-      path.to_s.start_with?(@path.to_s)
-    end
-
     private
 
     def git(cmd, arg)
