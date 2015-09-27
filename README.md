@@ -1,4 +1,10 @@
 # WikiMD
+[![Gem Version](https://badge.fury.io/rb/wikimd.svg)](http://badge.fury.io/rb/wikimd)
+[![Documentation](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](http://rubydoc.org/gems/wikimd/frames)
+[![Build Status](https://travis-ci.org/mhutter/wikimd.svg)](https://travis-ci.org/mhutter/wikimd)
+[![Code Climate](https://codeclimate.com/github/mhutter/wikimd/badges/gpa.svg)](https://codeclimate.com/github/mhutter/wikimd)
+[![Test Coverage](https://codeclimate.com/github/mhutter/wikimd/badges/coverage.svg)](https://codeclimate.com/github/mhutter/wikimd/coverage)
+
 
 Turn any Git-repository into a Wiki!
 
@@ -30,7 +36,7 @@ If you make changes to the SCSS files, run `script/build` to regenerate the CSS 
 
 To automatically rebuild CSS, run
 
-    bundle exec scss --sourcemap=none --watch _scss/wikimd.scss:lib/wikimd/app/public/assets/css/wikimd.css`
+    bundle exec scss --sourcemap=none --watch _scss/wikimd.scss:lib/wikimd/app/public/assets/css/wikimd.css
 
 However, still run `script/build` before commiting if you changed any SCSS files!
 
@@ -39,14 +45,16 @@ To install this gem onto your local machine, run `bundle exec rake install`.
 
 ## Contributing
 
-Fork it ( https://github.com/mhutter/string-similarity/fork )
-Create your feature branch (git checkout -b my-new-feature)
-Commit your changes (git commit -am 'Add some feature')
-Push to the branch (git push origin my-new-feature)
-Create a new Pull Request
-Bug reports and pull requests are welcome on GitHub at https://github.com/mhutter/string-similarity.
+1. Fork it ( https://github.com/mhutter/wikimd/fork )
+2. Create your feature branch (git checkout -b my-new-feature)
+3. Commit your changes (git commit -am 'Add some feature')
+4. Push to the branch (git push origin my-new-feature)
+5. Create a new Pull Request
 
-License
+Bug reports and pull requests are welcome on GitHub at https://github.com/mhutter/wikimd.
+
+
+## License
 
 The gem is available as open source under the terms of the MIT License.
 
