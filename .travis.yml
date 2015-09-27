@@ -6,7 +6,7 @@ before_script:
   - git config --global user.email "you@example.com"
   - git config --global user.name "Your Name"
 script:
-  - bundle exec cucumber
   - bundle exec rspec
+  - bundle exec cucumber
 after_script:
   - codeclimate-batch --groups 2
