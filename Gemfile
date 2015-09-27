@@ -10,4 +10,4 @@ group :development do
   gem 'growl'
 end
 
-gem 'codeclimate-test-reporter', group: :test, require: nil
+gem 'codeclimate_batch', group: :test, require: nil
