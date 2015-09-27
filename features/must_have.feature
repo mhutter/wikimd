@@ -19,7 +19,7 @@ Feature: Must-Have features
     Given an empty Repository
     And a document "File.md" with content "# Hello, Web!"
     Given I visit "/File.md"
-    Then I should see "<h1>Hello, Web!</h1>"
+    Then I should see "Hello, Web!"
 
   Scenario: View revision History in web interface
     Given an empty Repository
@@ -28,7 +28,8 @@ Feature: Must-Have features
     And I run "git commit -m 'added file' -- file.md"
     And I create a document "file.md" with content "new content"
     And I run "git commit -m 'updated file' -- file.md"
-    When I visit "/h/file.md"
+    When I visit "/file.md"
+    And I click "History"
     Then I should see "History"
     And I should see "added file"
     And I should see "updated file"
