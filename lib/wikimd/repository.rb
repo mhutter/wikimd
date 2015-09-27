@@ -8,7 +8,7 @@ module WikiMD
   # Handles reading and writing of files in the repo. Also interacts with GIT.
   class Repository
     # Raised, if a file or directory cannot be found, or is outside the repo.
-    class FileNotFound < Sinatra::NotFound; end
+    class FileNotFound < WikiMD::Error; end
     class GitError < WikiMD::Error; end
 
     attr_reader :path

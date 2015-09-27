@@ -28,6 +28,7 @@ module WikiMD
     configure :development do
       # settings for easier debugging
       Slim::Engine.set_options pretty: true, sort_attrs: false
+      set :show_exceptions, :after_handler
     end
     # :nocov:
 
@@ -47,9 +48,18 @@ module WikiMD
       def js_files
         repo.files.to_json.gsub('/', ',')
       end
+
+      def history_path(path)
+        url('/h/' + path)
+      end
     end
 
     not_found do
+      slim :'404'
+    end
+
+    error WikiMD::Repository::FileNotFound do
+      status 404
       slim :'404'
     end
 
@@ -59,18 +69,13 @@ module WikiMD
       files_set.get(params[:query]).to_json
     end
 
-    get(%r{/(.*)/history$}) do |path|
+    get '/h/*' do |path|
       @path = path
-      begin
-        @history = repo.history(@path)
-      rescue WikiMD::Repository::FileNotFound
-        pass
-      end
+      @history = repo.history(@path)
       slim :history
     end
 
-
-    get(%r{/(.*[^/])$}) do |path|
+    get '/*' do |path|
       @path = path
       @extension = (m = path.match(/(?:\.)([^.]+)$/)) ? m[1].downcase : ''
       begin
@@ -78,14 +83,7 @@ module WikiMD
       rescue WikiMD::Repository::FileNotFound
         pass
       end
-
       slim :file
-    end
-
-    get(%r{/(.*)/?}) do |path|
-      pass unless repo.dir?(path)
-      @tree = repo.tree(path)
-      slim :folder
     end
 
     private
