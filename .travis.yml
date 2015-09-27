@@ -3,6 +3,9 @@ rvm: # support stable versions
   - 2.2
   - 2.1
   - 2.0
+before_script:
+  - git config --global user.email "you@example.com"
+  - git config --global user.name "Your Name"
 script:
   - bundle exec rspec
   - bundle exec cucumber
