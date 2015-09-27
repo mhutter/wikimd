@@ -9,3 +9,5 @@ group :development do
   gem 'guard-cucumber'
   gem 'growl'
 end
+
+gem 'codeclimate-test-reporter', group: :test, require: nil

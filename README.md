@@ -20,7 +20,7 @@ Maximum connections set to 1024
 Listening on 0.0.0.0:8777, CTRL+C to stop
 ```
 
-That's all! Now browse to http://localhost:8777 and view your Repository!
+That's all! Now browse to [localhost:8777](http://localhost:8777) and browse your repository!
 
 ## Development
 
