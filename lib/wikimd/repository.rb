@@ -18,10 +18,6 @@ module WikiMD
       @path.mkpath
     end
 
-    def dir?(path)
-      pathname(path).directory?
-    end
-
     # Reads a file from the repository. +path+ will have its leading slashes
     # removed and must be within the repository path.
     #

@@ -1,5 +1,8 @@
 ENV['RACK_ENV'] = 'test'
 require 'simplecov'
+SimpleCov.add_filter '/.bundle'
+SimpleCov.add_filter '/spec'
+SimpleCov.add_filter '/features'
 SimpleCov.start
 
 # Fixture repo is included in the GIT repository

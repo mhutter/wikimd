@@ -4,6 +4,7 @@ require 'wikimd/repository'
 RSpec.describe WikiMD::Repository do
   let(:repo) { ::WikiMD::Repository.new(repo_path.to_s) }
   let(:repo_path) { Pathname(FIXTURE_REPO_PATH) }
+  let(:success) { double('thread', success?: true) }
 
   describe '.new' do
     let(:repo_path) { Pathname(TMP_REPO_PATH) }
@@ -17,8 +18,16 @@ RSpec.describe WikiMD::Repository do
 
   describe '#read' do
     it 'reads the files contents' do
-      expect(repo.read('file')).to eq 'content!'
-      expect(repo.read('/file')).to eq 'content!'
+      expected = repo_path.join('file').read
+      expect(repo.read('file')).to eq expected
+      expect(repo.read('/file')).to eq expected
+    end
+
+    it 'calls git to read a specific revision' do
+      expect(Open3).to receive(:capture3).with('git show bada55:"./file"') {
+        ['', '', success]
+      }
+      repo.read('file', 'bada55')
     end
 
     it 'raises if the file does not exist' do
@@ -50,6 +59,24 @@ RSpec.describe WikiMD::Repository do
       expect {
         repo.read(file)
       }.to raise_error(WikiMD::Repository::FileNotFound)
+    end
+  end
+
+  describe '#history' do
+    it 'returns the history' do
+      cmd = %(git log --pretty='format:%h;%cr;%s' --no-decorate --no-color -z -- mah\\ file)
+      expect(Open3).to receive(:capture3).with(cmd) {
+        ["50ed2fb;17 hours ago;packaging\x00683472c;4 weeks ago;wip", '', success]
+      }
+
+      hist = repo.history('mah file')
+      expect(hist.length).to eq 2
+      expect(hist).to eq [{
+          hash: '50ed2fb', date: '17 hours ago', message: 'packaging'
+        }, {
+          hash: '683472c', date: '4 weeks ago', message: 'wip'
+        }
+      ]
     end
   end
 
