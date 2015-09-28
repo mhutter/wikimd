@@ -24,7 +24,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'slim'
   s.add_runtime_dependency 'redcarpet'
   s.add_runtime_dependency 'rouge', '~> 1.8', '!= 1.9.1' # 1.9.1 has a loading bug
-  s.add_runtime_dependency 'thin'
   s.add_runtime_dependency 'fuzzy_set', '~> 1.1'
 
   s.add_development_dependency 'sass'
