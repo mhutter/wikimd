@@ -14,9 +14,9 @@ Gem::Specification.new do |s|
   s.homepage      = 'https://github.com/mhutter/wikimd'
   s.license       = 'MIT'
 
-  s.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  s.bindir        = 'exe'
-  s.executables   = s.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  s.files         = `git ls-files -z`.split("\x0").grep(%r{^(bin|lib|wikimd.gemspec|LICENSE|config.ru|README)})
+  s.bindir        = 'bin'
+  s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.require_paths = ['lib']
 
   s.add_runtime_dependency 'rack'
