@@ -1,3 +1,5 @@
+require 'tmpdir'
+
 require 'simplecov'
 
 REPO_PATH = Pathname(Dir.tmpdir).join($$.to_s)
