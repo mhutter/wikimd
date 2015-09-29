@@ -1,7 +1,8 @@
 require 'json'
 
-require 'sinatra/base'
 require 'fuzzy_set'
+require 'pry'
+require 'sinatra/base'
 require 'slim'
 
 require 'wikimd/renderer'
@@ -13,15 +14,20 @@ module WikiMD
     TYPE_MARKDOWN = %w(md mdown markdown)
     TYPE_TEXT = %w(txt rb js slim css scss coffee)
 
+    # Use gzip compression
     use Rack::Deflater
 
     configure do
+      # disable stuff not needed
       disable :method_override
       disable :sessions
 
       set :views, File.expand_path('../app/views', __FILE__)
       set :markdown_renderer, WikiMD::Renderer.build
       set :public_folder, File.expand_path('../app/public', __FILE__)
+
+      set :fs_created, Time.new(0)
+      set :fs, nil
     end
 
     # :nocov:
@@ -33,39 +39,55 @@ module WikiMD
     # :nocov:
 
     helpers do
+      # returns the URI for a static asset.
+      #
+      # @param name [#to_s] name of the asset file
+      # @return [String] the full URI
       def asset_path(name)
         url("assets/#{name}")
       end
 
+      # Include an Octicon! (see https://octicons.github.com/)
+      #
+      # @param name [#to_s] Name of the Octicon
+      # @return [String] HTML Code for the Octicon
       def octicon(name)
         %(<span class="octicon octicon-#{name}"></span>)
       end
 
+      # Get the directory-Tree from the root of the repo
       def tree_root
         repo.tree
       end
 
+      # URL helper for the History page of a document
+      #
+      # @param path [String] relative path of the document in the Repository
+      # @return [String] full URI to the history page
       def history_path(path)
         url('/h/' + path)
       end
     end
 
+    # If no route matches, render the 404 page
     not_found do
       slim :'404'
     end
 
+    # Quick/Fuzzy Search
     get '/search.json' do
       headers 'Content-Type' => 'application/json'
-      files_set = FuzzySet.new(repo.files)
       files_set.get(params[:query]).to_json
     end
 
+    # History Page
     get '/h/*' do |path|
       @path = path
       @history = repo.history(@path)
       slim :history
     end
 
+    # Document Page
     get '/*' do |path|
       @path = path
       @extension = (m = path.match(/(?:\.)([^.]+)$/)) ? m[1].downcase : ''
@@ -79,12 +101,23 @@ module WikiMD
 
     private
 
+    # Render Markdown to HTML
     def render_markdown(markdown)
       settings.markdown_renderer.render(markdown)
     end
 
+    # create or return Repository
     def repo
       @_repo ||= WikiMD::Repository.new(settings.repo_path)
+    end
+
+    # create or return the Search Index
+    def files_set
+      if settings.fs_created + 12 < Time.now
+        settings.fs = FuzzySet.new(repo.files)
+        settings.fs_created = Time.now
+      end
+      settings.fs
     end
   end
 end

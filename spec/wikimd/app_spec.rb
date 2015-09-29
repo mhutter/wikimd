@@ -10,6 +10,11 @@ RSpec.describe WikiMD::App do
   end
 
   describe '/search.json' do
+    before(:example) do
+      # reset the Search cache
+      app.fs_created = Time.new(0)
+    end
+
     it 'returns JSON data' do
       get '/search.json?query=foo'
       expect(last_response).to be_ok
@@ -27,6 +32,14 @@ RSpec.describe WikiMD::App do
       expect(last_response.body).to include('fileA')
       expect(last_response.body).to include('fileB')
       expect(last_response.body).to include('fileC')
+    end
+
+    it 'caches the search index' do
+      expect(FuzzySet).to receive(:new).exactly(:once).and_call_original
+
+      get '/search.json?query=fil'
+      get '/search.json?query=file'
+      get '/search.json?query=fileA'
     end
   end
 
