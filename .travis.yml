@@ -5,8 +5,10 @@ rvm: # support stable versions
 before_script:
   - git config --global user.email "you@example.com"
   - git config --global user.name "Your Name"
-script:
-  - bundle exec rspec
-  - bundle exec cucumber
+script: bundle exec $TASK
+env:
+  - TASK: rspec
+  - TASK: cucumber
 after_script:
-  - codeclimate-batch --groups 2
+  # number of groups must equal number_of_ruby_versions * number_of_tasks
+  - codeclimate-batch --groups 4
