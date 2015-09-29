@@ -45,21 +45,12 @@ module WikiMD
         repo.tree
       end
 
-      def js_files
-        repo.files.to_json.gsub('/', ',')
-      end
-
       def history_path(path)
         url('/h/' + path)
       end
     end
 
     not_found do
-      slim :'404'
-    end
-
-    error WikiMD::Repository::FileNotFound do
-      status 404
       slim :'404'
     end
 

@@ -19,17 +19,18 @@ Gem::Specification.new do |s|
   s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.require_paths = ['lib']
 
+  s.add_runtime_dependency 'fuzzy_set', '~> 1.1'
   s.add_runtime_dependency 'rack'
-  s.add_runtime_dependency 'sinatra'
-  s.add_runtime_dependency 'slim'
   s.add_runtime_dependency 'redcarpet'
   s.add_runtime_dependency 'rouge', '~> 1.8', '!= 1.9.1' # 1.9.1 has a loading bug
-  s.add_runtime_dependency 'fuzzy_set', '~> 1.1'
+  s.add_runtime_dependency 'sinatra'
+  s.add_runtime_dependency 'slim'
 
-  s.add_development_dependency 'sass'
-  s.add_development_dependency 'yard'
-  s.add_development_dependency 'rspec'
-  s.add_development_dependency 'cucumber'
   s.add_development_dependency 'capybara'
+  s.add_development_dependency 'cucumber'
+  s.add_development_dependency 'rack-test'
+  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'sass'
   s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'yard'
 end
