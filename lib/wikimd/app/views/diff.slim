@@ -1,0 +1,22 @@
+h1
+  | Changes
+  small< = @path
+
+a href=url('/h/' + @path) == "#{octicon(:'arrow-left')} back to History"
+
+p.lead
+  | Showing Changes from
+  a.removal<> href=url("/#{@path}?at=#{@from}") = @from
+  | to
+  a.addition< href=url("/#{@path}?at=#{@to}") = @to
+
+- @diff.each do |diff|
+  table.diff
+    thead
+      tr
+        th colspan="2" = diff[:start]
+    tbody
+      - diff[:lines].each do |line|
+        tr class=class_for_diff(line)
+          td = line[0]
+          td = line[1..-1]

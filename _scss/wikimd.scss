@@ -4,7 +4,16 @@ $octicons-font-path: "/assets/font";
 @import "octicons";
 
 // Vars
-$color-brand: hsl(100, 86%, 32%);
+// $color-brand: hsl(100, 86%, 32%);
+$color-blue: #28a3ef;
+$color-red: #ef28a3;
+$color-green: #a3ef28;
+
+$color-blue: #2798dd;
+$color-red: #dd2798;
+$color-green: #98dd27;
+
+$color-brand: $color-blue;
 $color-text: #444;
 
 $topbar-height: 56px;
@@ -67,6 +76,19 @@ pre code {
   border: none;
 }
 
+button {
+  border-radius: 0;
+  background: $color-brand;
+  color: #fff;
+  border: 1px solid darken($color-brand, 10%);
+  box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+}
+
+.lead {
+  font-size: 1.25rem;
+}
+
+
 /*
  *  Actual Styling!
  */
@@ -108,9 +130,14 @@ main {
 }
 
 .alert-info {
-  color: #31708f;
-  background-color: #d9edf7;
-  border-color: #bcdff1;
+  color: darken($color-green, 20%);
+  background-color: lighten($color-green, 20%);
+  border-color: darken($color-green, 30%);
+}
+.alert-error {
+  color: darken($color-red, 20%);
+  background-color: lighten($color-red, 20%);
+  border-color: darken($color-red, 30%);
 }
 
 .history {
@@ -125,6 +152,11 @@ main {
   li:last-child {
     border: none;
   }
+
+  input[type='checkbox'] {
+    margin-right: 8px;
+  }
+
   .rev {
     display: inline-block;
     width: 80px;
@@ -133,4 +165,45 @@ main {
     display: inline-block;
     width: 160px;
   }
+}
+
+.diff {
+  width: 100%;
+  overflow-x: hidden;
+  font-family: monospace;
+  border: 1px solid #ccc;
+  margin: 10px 0;
+  background: #eee;
+
+  th {
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+    background: #ddd;
+    padding: 4px;
+  }
+
+  tr td:first-child {
+    width: 24px;
+    text-align: center;
+    vertical-align: top;
+  }
+}
+.addition {
+  background: #ccffcc;
+  color: #060;
+  border-color: #060;
+}
+.removal {
+  background: #ffcccc;
+  color: #600;
+  border-color: #600;
+}
+a.addition,
+a.removal {
+  padding-left: 4px;
+  padding-right: 4px;
+  font-weight: normal;
+  font-family: monospace;
+  border: 1px solid;
+  border-radius: 3px;
 }

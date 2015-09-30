@@ -20,7 +20,8 @@ module WikiMD
     configure do
       # disable stuff not needed
       disable :method_override
-      disable :sessions
+
+      enable :sessions
 
       set :views, File.expand_path('../app/views', __FILE__)
       set :markdown_renderer, WikiMD::Renderer.build
@@ -67,11 +68,44 @@ module WikiMD
       def history_path(path)
         url('/h/' + path)
       end
+
+      def class_for_diff(line)
+        case line[0]
+        when '+'
+          'addition'
+        when '-'
+          'removal'
+        end
+      end
     end
 
     # If no route matches, render the 404 page
     not_found do
       slim :'404'
+    end
+
+    before do
+      @flash = session[:flash]
+      session[:flash] = nil
+    end
+
+    post '/c/*' do |path|
+      if (params[:compare] || []).length != 2
+        session[:flash] = {
+          'error' => 'Must select exactly 2 revisions!'
+        }
+        redirect to('/h/' + path)
+      end
+
+      @from, @to = params['compare'][1], params['compare'][0]
+      begin
+        @diff = repo.diff(path, @from, @to)
+      rescue WikiMD::Repository::FileNotFound
+        pass
+      end
+
+      @path = path
+      slim :diff
     end
 
     # Quick/Fuzzy Search
@@ -89,13 +123,14 @@ module WikiMD
 
     # Document Page
     get '/*' do |path|
-      @path = path
-      @extension = (m = path.match(/(?:\.)([^.]+)$/)) ? m[1].downcase : ''
       begin
-        @content = repo.read(@path, params[:at])
+        @content = repo.read(path, params[:at])
       rescue WikiMD::Repository::FileNotFound
         pass
       end
+      @path = path
+      session[:test] = path
+      @extension = (m = path.match(/(?:\.)([^.]+)$/)) ? m[1].downcase : ''
       slim :file
     end
 

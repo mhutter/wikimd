@@ -210,4 +210,39 @@ RSpec.describe WikiMD::Repository do
       expect(repo.tree('list')).to eq expected
     end
   end
+
+  describe '#diff' do
+    it 'returns an empty array if there are no changes' do
+      allow(repo).to receive(:git).and_return("")
+      expect(repo.diff('file', 'rev1', 'rev2')).to eq []
+    end
+
+    it 'returns structured diff information' do
+      allow(repo).to receive(:git).and_return("@@ -1,2 +1,2 @@\n-old content\n+new content")
+      diff = repo.diff('file', 'a', 'b')
+      expect(diff).to eq [{
+        start: '-1,2 +1,2',
+        lines: [
+          '-old content',
+          '+new content'
+        ]}]
+    end
+
+    it 'doesnt swallow info on first line' do
+      allow(repo).to receive(:git).and_return("@@ -1,2 +1,2 @@ oops\n-old content\n+new content")
+      diff = repo.diff('file', 'a', 'b')
+      expect(diff).to eq [{
+        start: '-1,2 +1,2',
+        lines: [
+          ' oops',
+          '-old content',
+          '+new content'
+        ]}]
+    end
+
+    it 'allows multiple diffs' do
+      allow(repo).to receive(:diff).and_return("")
+
+    end
+  end
 end

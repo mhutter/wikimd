@@ -3,12 +3,16 @@ h1
   small< = @path
 
 - if @history.any?
-  ul.history
-    - @history.each do |h|
-      li
-        a.rev> href=url(@path + "?at=#{h[:hash]}") = h[:hash]
-        strong.date<> = h[:date]
-        span.message< = h[:message]
+  form action=url("/c/#{@path}") method="post"
+    ul.history
+      - @history.each do |h|
+        li
+          input type="checkbox" name="compare[]" value=h[:hash]
+          a.rev> href=url(@path + "?at=#{h[:hash]}") = h[:hash]
+          strong.date<> = h[:date]
+          span.message< = h[:message]
+
+    button type="submit" == "#{octicon(:diff)} compare selected revisions"
 
 - else
   .alert.alert-info

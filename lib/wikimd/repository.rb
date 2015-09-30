@@ -92,6 +92,26 @@ module WikiMD
       build_hash(files(root), root)
     end
 
+    def diff(path, old, new)
+      path = pathname(path)
+      raw_diff = git :diff, "-p --no-color #{old} #{new} -- #{path}"
+      diff = []
+      raw_diff.each_line do |line|
+        next if line =~ /^(diff|index|\+\+\+|---)/
+        case line[0]
+        when '@'
+          parts = line.chomp.split('@@')
+          diff << {
+            start: parts[1].gsub(/^\s|\s$/, ''),
+            lines: [(parts[2])].compact
+          }
+        else
+          diff.last[:lines] << line.chomp
+        end
+      end
+      diff
+    end
+
     private
 
     def git(cmd, arg)

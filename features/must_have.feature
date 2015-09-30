@@ -39,9 +39,21 @@ Feature: Must-Have features
     Then I should see "old conten"
     And I should see "Displaying file at rev."
 
+  # Details about Markdown formatting see unit tests
   Scenario: Formatting with Markdown
     Given an empty Repository
     And I create a document "syntax.md" with content "# Hello, Markdown!"
     When I visit "/syntax.md"
     Then I should see a heading with "Hello, Markdown!"
-    # Details about Markdown formatting see "spec/wikimd/renderer_spec.rb"
+
+  Scenario: Compare two revisions
+    Given an empty Repository
+    And I create a file with a history
+    When I visit "/file.md"
+    And I click "History"
+    And I select the first revision
+    And I select the last revision
+    And I click "compare selected revisions"
+    Then I should see a heading with "Changes"
+    And I should see "old content"
+    And I should see "new content"
