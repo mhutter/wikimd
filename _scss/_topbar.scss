@@ -11,6 +11,26 @@
     0 4px 8px rgba(0, 0, 0, .28);
 }
 
+.brand {
+  color: #fff;
+  display: inline-block;
+  float: left;
+  font-weight: normal;
+  font-weight: 100;
+  letter-spacing: 1px;
+  font-size: 32px;
+  height: $topbar-height;
+  line-height: $topbar-height;
+  margin: 0;
+  margin-left: 24px;
+  padding: 0;
+  border: none;
+}
+.brand:link,
+.brand:visited {
+  color: #fff;
+}
+
 .search {
   display: block;
   margin-left: $sidebar-width;
