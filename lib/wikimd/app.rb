@@ -81,6 +81,7 @@ module WikiMD
 
     # If no route matches, render the 404 page
     not_found do
+      @path = env['PATH_INFO'].sub(/^\//, '')
       slim :'404'
     end
 
@@ -88,6 +89,8 @@ module WikiMD
       @flash = session[:flash]
       session[:flash] = nil
     end
+
+    get('/') { redirect to('index.md') }
 
     post '/c/*' do |path|
       if (params[:compare] || []).length != 2
