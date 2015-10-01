@@ -241,8 +241,28 @@ RSpec.describe WikiMD::Repository do
     end
 
     it 'allows multiple diffs' do
-      allow(repo).to receive(:diff).and_return("")
-
+      diff_txt = <<-EOT
+@@ -1,2 +1,2 @@
+-old content
++new content
+@@ -1,10 +1,10 @@
+-bad line
++good line
+      EOT
+      allow(repo).to receive(:git).and_return(diff_txt)
+      diff = repo.diff('file', 'a', 'b')
+      expect(diff).to eq [{
+        start: '-1,2 +1,2',
+        lines: [
+          '-old content',
+          '+new content'
+      ]}, {
+        start: '-1,10 +1,10',
+        lines: [
+          '-bad line',
+          '+good line'
+        ]
+      }]
     end
-  end
+  end # diff
 end
