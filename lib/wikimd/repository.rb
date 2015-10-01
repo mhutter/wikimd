@@ -94,7 +94,7 @@ module WikiMD
 
     def diff(path, old, new)
       path = pathname(path)
-      raw_diff = git :diff, "-p --no-color #{old} #{new} -- #{path}"
+      raw_diff = git :diff, "-p --no-color #{old} #{new} -- #{path.to_s.shellescape}"
       diff = []
       raw_diff.each_line do |line|
         next if line =~ /^(diff|index|\+\+\+|---)/
@@ -110,6 +110,29 @@ module WikiMD
         end
       end
       diff
+    end
+
+    # Updates the given file with `content`. The file must be present!
+    #
+    # @param path [String] absolute path of file to update.
+    # @param content [String] the new file content
+    # @raise [FileNotFound] if +file+ doesn't exist within the repo or is a dir
+    def update(path, content)
+      file = pathname(path)
+
+      # fail if path is a dir or similar
+      fail FileNotFound unless file.file?
+
+      # get rid of CRLFs
+      content.gsub!(/\r\n?/, "\n")
+
+      # don't do anything if the contents are identical
+      return if file.read == content
+
+      # write, add, commit
+      file.write(content)
+      git :add, path.shellescape
+      git :commit, "-m 'update #{path}' -- #{path.shellescape}"
     end
 
     private

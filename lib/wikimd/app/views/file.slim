@@ -6,10 +6,12 @@
 
 
 .actions
-  a href=history_path(@path)
-    strong.octicon.octicon-history>
+  a.btn href=history_path(@path)
+    span.octicon.octicon-history>
     | History
-
+  a.btn href=edit_path(@path)
+    span.octicon.octicon-pencil>
+    | Edit
 
 - if TYPE_MARKDOWN.include?(@extension)
   == render_markdown(@content)

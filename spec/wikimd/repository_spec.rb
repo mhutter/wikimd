@@ -209,7 +209,7 @@ RSpec.describe WikiMD::Repository do
       }
       expect(repo.tree('list')).to eq expected
     end
-  end
+  end # tree
 
   describe '#diff' do
     it 'returns an empty array if there are no changes' do
@@ -265,4 +265,59 @@ RSpec.describe WikiMD::Repository do
       }]
     end
   end # diff
+
+  describe '#update' do
+    let(:repo_path) { Pathname(TMP_REPO_PATH) }
+    let(:file_name) { 'file.txt' }
+    let(:test_file) { TMP_REPO_PATH.join(file_name) }
+
+    before(:each) do
+      init_tmp_repo
+      test_file.write('old content')
+    end
+
+    it 'raises an error if the file does not exist' do
+      expect {
+        repo.update('does/not/exist.txt', 'content')
+      }.to raise_error WikiMD::Repository::FileNotFound
+    end
+
+    it 'writes data to the file' do
+      repo.update(file_name, 'new content')
+      expect(test_file.read).to eq 'new content'
+    end
+
+    it 'creates a new git commit' do
+      repo.update(file_name, 'new content')
+      hist = repo.history(file_name)
+      expect(hist.length).to eq 1
+      expect(hist.first[:message]).to eq "update #{file_name}"
+    end
+
+    it 'converts CR(LF)s to LF' do
+      repo.update(file_name, "old content")
+
+      expect {
+        repo.update(file_name, "new\r\n\r\ncontent\r")
+      }.to_not raise_error
+
+      file_content = test_file.read
+      expect(file_content).to_not include("\r")
+      expect(file_content).to end_with("\n")
+    end
+
+    it 'does not raise if the file has no changes' do
+      repo.update(file_name, "old content")
+      expect {
+        repo.update(file_name, "old content")
+      }.to_not raise_error
+    end
+
+    it 'raises a NotFound if path is a dir' do
+      repo_path.join('dir').mkpath
+      expect {
+        repo.update('dir', 'content')
+      }.to raise_error WikiMD::Repository::FileNotFound
+    end
+  end # update
 end

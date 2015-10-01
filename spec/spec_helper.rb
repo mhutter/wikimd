@@ -15,6 +15,9 @@ ORIGINAL_PWD = Dir.pwd
 def init_tmp_repo
   TMP_REPO_PATH.rmtree if TMP_REPO_PATH.exist?
   TMP_REPO_PATH.mkpath
+  Dir.chdir(TMP_REPO_PATH) do
+    `git init`
+  end
 end
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration

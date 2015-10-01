@@ -69,6 +69,19 @@ module WikiMD
         url('/h/' + path)
       end
 
+      # URL helper for the Edit page of a document
+      #
+      # @param path [String] relative path of the document in the Repository
+      # @return [String] full URI to the edit page
+      def edit_path(path)
+        url('/e/' + path)
+      end
+
+      # CSS class for a diff line
+      #
+      # @param line [String] the line in question
+      # @return [String] "addition", if the line starts with "+", "removal" if
+      #   the line starts with "-", nil otherwise.
       def class_for_diff(line)
         case line[0]
         when '+'
@@ -124,6 +137,24 @@ module WikiMD
       slim :history
     end
 
+    # Update
+    post '/e/*' do |path|
+      repo.update(path, params[:content])
+      session[:flash] = { 'info' => "'#{path}' has been saved!" }
+      redirect to(path)
+    end
+
+    # Edit page
+    get '/e/*' do |path|
+      begin
+        @content = repo.read(path)
+      rescue WikiMD::Repository::FileNotFound
+        pass
+      end
+      @path = path
+      slim :edit
+    end
+
     # Document Page
     get '/*' do |path|
       begin
@@ -132,7 +163,6 @@ module WikiMD
         pass
       end
       @path = path
-      session[:test] = path
       @extension = (m = path.match(/(?:\.)([^.]+)$/)) ? m[1].downcase : ''
       slim :file
     end

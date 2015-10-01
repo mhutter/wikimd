@@ -1,0 +1,8 @@
+h1
+  | Edit file
+  small< = @path
+
+form.edit action=edit_path(@path) method="POST"
+  textarea#content name="content" rows="32" = @content
+  .form-actions
+    input.btn type="submit" value="Save"
