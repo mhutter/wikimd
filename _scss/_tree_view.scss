@@ -52,4 +52,9 @@
   .entry.directory > span:before {
     content: '\f016';
   }
+
+  .entry.current a {
+    font-weight: bold;
+    background: #e8e8e8;
+  }
 }
