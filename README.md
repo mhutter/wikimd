@@ -8,10 +8,6 @@
 
 Turn any Git-repository into a Wiki!
 
-## State
-
-This Project is currently under development. It works, but there are some rough edges!
-
 ## Installation & Usage
 
 ```bash
@@ -21,9 +17,10 @@ $ gem install wikimd
 # browse to your Git-repo and run wikimd
 $ cd my/git/repo
 $ wikimd
-Thin web server (v1.6.4 codename Gob Bluth)
-Maximum connections set to 1024
-Listening on 0.0.0.0:8777, CTRL+C to stop
+[2015-10-01 02:20:32] INFO  WEBrick 1.3.1
+[2015-10-01 02:20:32] INFO  ruby 2.2.3 (2015-08-18) [x86_64-darwin14]
+[2015-10-01 02:20:32] INFO  WEBrick::HTTPServer#start: pid=48477 port=8777
+# WikiMD will automatically pick up "thin" or similar if installed
 ```
 
 That's all! Now browse to [localhost:8777](http://localhost:8777) and browse your repository!
@@ -38,25 +35,9 @@ To automatically rebuild CSS, run
 
     bundle exec scss --sourcemap=none --watch _scss/wikimd.scss:lib/wikimd/app/public/assets/css/wikimd.css
 
-However, still run `script/build` before commiting if you changed any SCSS files!
+However, still run `script/build` before committing if you changed any SCSS files!
 
 To install this gem onto your local machine, run `bundle exec rake install`.
-
-
-## Contributing
-
-1. Fork it ( https://github.com/mhutter/wikimd/fork )
-2. Create your feature branch (git checkout -b my-new-feature)
-3. Commit your changes (git commit -am 'Add some feature')
-4. Push to the branch (git push origin my-new-feature)
-5. Create a new Pull Request
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/mhutter/wikimd.
-
-
-## License
-
-The gem is available as open source under the terms of the MIT License.
 
 
 ## Contributing
