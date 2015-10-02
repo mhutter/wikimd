@@ -29,6 +29,7 @@ module WikiMD
 
       set :fs_created, Time.new(0)
       set :fs, nil
+      set(:repo) { WikiMD::Repository.new(settings.repo_path) }
     end
 
     # :nocov:
@@ -94,7 +95,7 @@ module WikiMD
 
     # If no route matches, render the 404 page
     not_found do
-      @path = env['PATH_INFO'].sub(/^\//, '')
+      @path = env['PATH_INFO'].sub(%r{^/([ceh]/)?}, '')
       slim :'404'
     end
 
@@ -133,7 +134,11 @@ module WikiMD
     # History Page
     get '/h/*' do |path|
       @path = path
-      @history = repo.history(@path)
+      begin
+        @history = repo.history(@path)
+      rescue WikiMD::Repository::GitError
+        @history = []
+      end
       slim :history
     end
 
@@ -176,7 +181,7 @@ module WikiMD
 
     # create or return Repository
     def repo
-      @_repo ||= WikiMD::Repository.new(settings.repo_path)
+      settings.repo
     end
 
     # create or return the Search Index
