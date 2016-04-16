@@ -1,7 +1,6 @@
 require 'json'
 
 require 'fuzzy_set'
-require 'pry'
 require 'sinatra/base'
 require 'slim'
 
