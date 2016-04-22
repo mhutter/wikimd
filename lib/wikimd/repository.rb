@@ -56,7 +56,7 @@ module WikiMD
       dir = pathname(path)
 
       Dir.chdir(dir) do
-        Dir['*/']
+        Dir['*/'].sort
       end
 
     rescue
@@ -71,7 +71,7 @@ module WikiMD
       dir = pathname(path)
 
       Dir.chdir(dir) do
-        Dir['*'].select { |n| File.file?(n) }
+        Dir['*'].select { |n| File.file?(n) }.sort
       end
 
     rescue

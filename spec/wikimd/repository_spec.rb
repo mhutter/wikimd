@@ -119,7 +119,12 @@ RSpec.describe WikiMD::Repository do
         repo.read(dir)
       }.to raise_error(WikiMD::Repository::FileNotFound)
     end
-  end
+
+    it 'sorts the entries by alphabet' do
+      allow(Dir).to receive(:[]).and_return(%w{folderC folderA folderB})
+      expect(repo.list_dirs('list')).to eq %w{folderA folderB folderC}
+    end
+  end #list_dirs
 
   describe '#list_files' do
     it 'returns an array of file names' do
@@ -170,6 +175,11 @@ RSpec.describe WikiMD::Repository do
       expect {
         repo.read(dir)
       }.to raise_error(WikiMD::Repository::FileNotFound)
+    end
+
+    it 'sorts the entries by alphabet' do
+      allow(Dir).to receive(:[]).and_return(%w{fileC fileA fileB})
+      expect(repo.list_files('list')).to eq %w{fileA fileB fileC}
     end
   end # list_files
 
