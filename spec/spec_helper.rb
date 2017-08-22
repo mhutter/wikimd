@@ -17,6 +17,7 @@ def init_tmp_repo
   TMP_REPO_PATH.mkpath
   Dir.chdir(TMP_REPO_PATH) do
     `git init`
+    `git config commit.gpgsign false`
   end
 end
 

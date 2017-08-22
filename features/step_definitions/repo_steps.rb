@@ -3,6 +3,7 @@ Given(/^an empty Repository$/) do
   REPO_PATH.mkpath
   # initialize the git repo
   step 'I run "git init"'
+  step 'I run "git config commit.gpgsign false"'
   @repo = WikiMD::Repository.new(REPO_PATH)
 end
 
