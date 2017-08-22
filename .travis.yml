@@ -1,8 +1,7 @@
 language: ruby
 rvm: # support stable versions
-  - 2.3.0
-  - 2.2
-  - 2.1
+  - 2.4.1
+  - 2.3.4
 install:
   - bundle install --jobs=3 --retry=3 --path .bundle
   - bundle update --jobs=3 --retry=3
@@ -14,8 +13,8 @@ before_script:
   - git config --global user.name "Your Name"
 script: bundle exec $TASK
 env:
-  - TASK: rspec
-  - TASK: cucumber
+  - TASK=rspec
+  - TASK=cucumber
 after_script:
   # number of groups must equal number_of_ruby_versions * number_of_tasks
   - codeclimate-batch --groups 4
