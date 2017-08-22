@@ -1,20 +1,31 @@
 language: ruby
-rvm: # support stable versions
+rvm:
   - 2.4.1
   - 2.3.4
+
+env:
+  global:
+    - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
+
 install:
   - bundle install --jobs=3 --retry=3 --path .bundle
   - bundle update --jobs=3 --retry=3
-cache:
-  directories:
-    - .bundle
+
 before_script:
   - git config --global user.email "you@example.com"
   - git config --global user.name "Your Name"
-script: bundle exec $TASK
-env:
-  - TASK=rspec
-  - TASK=cucumber
-after_script:
-  # number of groups must equal number_of_ruby_versions * number_of_tasks
-  - codeclimate-batch --groups 4
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+
+script:
+  - bundle exec rspec
+  - bundle exec cucumber
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
+
+cache:
+  directories:
+    - ".bundle"
+
+notifications:
+  slack:
+    secure: eIHCYIlrSB7EicajTeOQ4QqmI+Cg3U3FPlCnCWA4kqrVgfjFEoUEqHHxD8CsixX/HOXOCnvQ0VROOVJACOfDChA+CDxUlLSCctYgJTbq6qZ7nt2O5vMR/yfYPkTdCxwU8e2kPGwX5Hcm3s6HC/Xl9Zo7VWTIoNAjrDWgRAfUghEMFSA+/qWWYTow056Ryw1DF6sWsK6voAOIxGzIqfEJqF9lGhFO7vu9w0RFJfhXjAMVotFvYRq4H5e29URw81xBWk6Bh7Fb1vxZzpqjOcP7ZXo7elgvhwqTrl87r+b38NGecvoapUnAWtQ4khQ4QDSj055AVOcAwpmB4m8J0RoNu0L/aJtfzFTwBGy23Or+/mlTU8KY120aQ6eP3J4jWBptsOM56Pgjey3gmT7pPCGLgceS3qmR/kXXjt7pLmPS5D0F8z8MFy7VtdHnowUGii0LDl5llR0FCvT5KuJvmVlSqW0uGryoxFFxJu0boYxCILcwK85RQDlIZVKIZQAYepFA+t3SAaesE+n7c1RuXZcCIYQCAUfqshWhki/VzUF0O30PqXuZz9fbnqPi1F1zcGZn6NovbeMr8+9xqdjj+5yxXlFUYSAXn3Vxn0Vt01VloA2DJKTl1I5WO2iQv1sMpu8FLy07BIqYF8A/CoTeUP7G7e5sLBx9/ooCgh9E5odXtQs=
