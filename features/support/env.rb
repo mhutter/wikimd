@@ -1,6 +1,7 @@
 require 'tmpdir'
 
 require 'simplecov'
+SimpleCov.start
 
 REPO_PATH = Pathname(Dir.tmpdir).join($$.to_s)
 ENV['REPO_PATH'] = REPO_PATH.to_s
