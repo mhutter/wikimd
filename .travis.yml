@@ -12,13 +12,18 @@ install:
   - bundle update --jobs=3 --retry=3
 
 before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
   - git config --global user.email "you@example.com"
   - git config --global user.name "Your Name"
 
 script:
   - bundle exec rspec
   - bundle exec cucumber
-  - ./script/cc-report
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
 cache:
   directories:
